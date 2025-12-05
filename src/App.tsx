@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 export function App() {
   const [displayText, setDisplayText] = useState('Todo App')
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
 
   useEffect(() => {
     // Check URL hash on mount
@@ -36,6 +37,25 @@ export function App() {
   const handleFaqClick = () => {
     setDisplayText('FAQ')
   }
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index)
+  }
+
+  const faqItems = [
+    {
+      question: 'Is there any price to use this program?',
+      answer: 'No, there are no costs whatsoever to use this application!'
+    },
+    {
+      question: 'How do I create an account?',
+      answer: 'Simply just click the "Sign Up" button located at the top right of the screen.'
+    },
+    {
+      question: 'What do I need to do to get started?',
+      answer: 'All you need to do is Sign up and then you can get straight to your todos!'
+    }
+  ]
 
   return (
     <div className="w-full">
@@ -106,6 +126,49 @@ export function App() {
             </a>
             {' '}to explore more projects and contributions to the open-source community.
           </p>
+        </div>
+      )}
+      {displayText === 'FAQ' && (
+        <div className="mt-8 mx-auto max-w-4xl px-6">
+          {faqItems.map((item, index) => (
+            <div key={index} className="mb-4 border-b border-gray-300 pb-4">
+              <button
+                onClick={() => toggleFaq(index)}
+                className="w-full flex items-center justify-between text-left py-3 hover:bg-gray-50 rounded px-3 transition-colors"
+              >
+                <span
+                  className="text-2xl italic font-bold"
+                  style={{
+                    fontFamily: 'Lato, sans-serif',
+                    fontWeight: 900
+                  }}
+                >
+                  {item.question}
+                </span>
+                <span
+                  className="ml-4"
+                  style={{
+                    transform: openFaqIndex === index ? 'rotate(90deg)' : 'rotate(0deg)',
+                    transition: 'transform 1s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                  }}
+                >
+                  ▶
+                </span>
+              </button>
+              <div
+                className="overflow-hidden"
+                style={{
+                  maxHeight: openFaqIndex === index ? '200px' : '0px',
+                  opacity: openFaqIndex === index ? 1 : 0,
+                  transition: 'max-height 1s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1s cubic-bezier(0.25, 0.1, 0.25, 1)'
+                }}
+              >
+                <div className="mt-2 px-3 text-xl text-gray-700">
+                  {item.answer}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
