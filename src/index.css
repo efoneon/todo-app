@@ -20,6 +20,18 @@
   }
 }
 
+@keyframes drawLineLoop {
+  0% {
+    stroke-dashoffset: 210;
+  }
+  40% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
 @media (prefers-reduced-motion) {
   *,
   ::before,
